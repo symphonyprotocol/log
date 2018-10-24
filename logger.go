@@ -21,7 +21,7 @@ func (l *Logger) SetLevel(level Level) {
 }
 
 func (l *Logger) Log(level Level, params ...interface{}) {
-	if IsLevelEnabled(l.GetLevel(), GetLevel(level, INFO)) {
+	if IsLevelEnabled(l.GetLevel(), GetLevel(level, INFO)) && IsLevelEnabled(globalLogLevel, GetLevel(level, INFO)) {
 		l.log(level, params...)
 	}
 }
@@ -29,8 +29,12 @@ func (l *Logger) Log(level Level, params ...interface{}) {
 func (l *Logger) log(level Level, params ...interface{}) {
 	event := NewLoggingEvent(l.Name, level, params)
 	// notify appenders, ugly.
-	for _, appender := range appenders {
-		appender.Log(event)
+
+	appenders := GetAppendersForCategory(l.Name)
+	if appenders != nil {
+		for _, appender := range appenders {
+			appender.Log(event)
+		}
 	}
 }
 

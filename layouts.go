@@ -40,7 +40,7 @@ func colorize(str string, color string) string {
 	return colorStart(color) + str + colorEnd(color)
 }
 
-func basicLayout(event LoggingEvent) string {
+func basicLayout(event *LoggingEvent) string {
 	return fmt.Sprintf("[%v] [%v] %v - ", event.StartTime.Format("2006-01-02T15:04:05.999-07:00"), event.Level.String(), event.Category) + fmt.Sprintf(event.Data[0].(string), event.Data[1:]...)
 }
 

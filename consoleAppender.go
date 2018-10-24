@@ -9,3 +9,7 @@ type ConsoleAppender struct {
 func (c *ConsoleAppender) Log(event *LoggingEvent) {
 	fmt.Println(colorizedLayout(event))
 }
+
+func (c *ConsoleAppender) GetName() string {
+	return "console"
+}

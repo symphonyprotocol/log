@@ -4,8 +4,5 @@ package log
 
 type Appender interface {
 	Log(event *LoggingEvent)
-}
-
-var appenders = []Appender {
-	&ConsoleAppender{},
+	GetName() string
 }
