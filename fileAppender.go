@@ -4,8 +4,13 @@ import "os"
 import "fmt"
 
 type FileAppender struct {
-	Appender
+	*BaseAppender
+}
+
+type FileAppenderProvider struct {
+	IAppenderProvider
 	File	*os.File
+	RolloverSize	int64
 }
 
 // TODO: rollover
@@ -15,12 +20,18 @@ func NewFileAppender(file string, rolloverSize int64) *FileAppender {
 		panic(err)
 	}
 
-	return &FileAppender{
-		File: f,
+	fa := &FileAppender{
+		BaseAppender: NewBaseAppender(),
 	}
+	fa.AppenderProvider = &FileAppenderProvider{
+		File: f,
+		RolloverSize: rolloverSize,
+	}
+
+	return fa
 }
 
-func (c *FileAppender) Log(event *LoggingEvent) {
+func (c *FileAppenderProvider) log(event *LoggingEvent) {
 	c.File.WriteString(fmt.Sprintln(basicLayout(event)))
 }
 

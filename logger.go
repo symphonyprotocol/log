@@ -16,8 +16,9 @@ func (l *Logger) GetLevel() Level {
 	return GetLevel(GetLevelForCategory(l.Name), TRACE)
 }
 
-func (l *Logger) SetLevel(level Level) {
+func (l *Logger) SetLevel(level Level) *Logger {
 	SetLevelForCategory(l.Name, level)
+	return l
 }
 
 func (l *Logger) Log(level Level, params ...interface{}) {

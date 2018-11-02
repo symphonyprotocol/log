@@ -1,7 +1,7 @@
 package log
 
 var (
-	categories map[string] Level
+	categories map[string] Level = make(map[string] Level)
 )
 
 func GetLevelForCategory(category string) Level {

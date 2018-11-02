@@ -3,10 +3,22 @@ package log
 import "fmt"
 
 type ConsoleAppender struct {
-	Appender
+	*BaseAppender
 }
 
-func (c *ConsoleAppender) Log(event *LoggingEvent) {
+type ConsoleAppenderProvider struct {
+	IAppenderProvider
+}
+
+func NewConsoleAppender() *ConsoleAppender {
+	c := &ConsoleAppender{
+		BaseAppender: NewBaseAppender(),
+	}
+	c.AppenderProvider = &ConsoleAppenderProvider{}
+	return c
+}
+
+func (cp *ConsoleAppenderProvider) log(event *LoggingEvent) {
 	fmt.Println(colorizedLayout(event))
 }
 
