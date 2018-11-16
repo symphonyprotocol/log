@@ -1,5 +1,9 @@
 package log
 
+import (
+	"time"
+)
+
 // not configurable now...
 
 type Appender interface {
@@ -30,6 +34,7 @@ func (b *BaseAppender) Log(event *LoggingEvent) {
 
 func (b *BaseAppender) loop() {
 	for {
+		time.Sleep(time.Millisecond)
 		select {
 		case event := <- b.EventQueue:
 			if b.AppenderProvider != nil {
