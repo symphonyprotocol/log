@@ -1,7 +1,6 @@
 package log
 
 import (
-	"time"
 )
 
 // not configurable now...
@@ -34,14 +33,11 @@ func (b *BaseAppender) Log(event *LoggingEvent) {
 
 func (b *BaseAppender) loop() {
 	for {
-		time.Sleep(time.Millisecond)
 		select {
 		case event := <- b.EventQueue:
 			if b.AppenderProvider != nil {
 				b.AppenderProvider.log(event)
 			}
-		default:
-			// do nothing
 		}
 	}
 }
