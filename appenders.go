@@ -21,7 +21,7 @@ type BaseAppender struct {
 
 func NewBaseAppender() *BaseAppender {
 	b := &BaseAppender{
-		EventQueue:	make(chan(*LoggingEvent), 100),
+		EventQueue:	make(chan *LoggingEvent, 5),
 	}
 	go b.loop()
 	return b
