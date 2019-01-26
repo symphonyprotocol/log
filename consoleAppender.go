@@ -1,6 +1,7 @@
 package log
 
 import "fmt"
+import "runtime"
 
 type ConsoleAppender struct {
 	*BaseAppender
@@ -19,7 +20,11 @@ func NewConsoleAppender() *ConsoleAppender {
 }
 
 func (cp *ConsoleAppenderProvider) log(event *LoggingEvent) {
-	fmt.Println(colorizedLayout(event))
+	if runtime.GOOS == "windows" {
+		fmt.Fprintln(Output, colorizedLayout(event))
+	} else {
+		fmt.Println(colorizedLayout(event))
+	}
 }
 
 func (c *ConsoleAppender) GetName() string {

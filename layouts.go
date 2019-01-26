@@ -2,7 +2,11 @@ package log
 
 import (
 	"fmt"
+	"runtime"
+	"github.com/mattn/go-colorable"
 )
+
+var Output = colorable.NewColorableStdout()
 
 var styles map[string] []int = map[string] []int {
 	"bold": { 1, 22 },
@@ -31,7 +35,11 @@ func colorStart(color string) string {
 
 func colorEnd(color string) string {
 	if color != "" {
-		return fmt.Sprintf("\x1B[%vm", styles[color][1])
+		if runtime.GOOS == "windows" {
+			return fmt.Sprintf("\x1B[0m")
+		} else {
+			return fmt.Sprintf("\x1B[%vm", styles[color][1])
+		}
 	}
 	return ""
 }
