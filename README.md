@@ -12,3 +12,6 @@ var logger = log.GetLogger("Test Category")
 logger.Debug("Hello %v", "World")
 logger.Trace("Hello World")
 ```
+## Module support 
+
+* In progress
